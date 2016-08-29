@@ -13,7 +13,11 @@ AC_PREREQ([2.69])
 AC_INIT([libhio], [1.4], [hjelmn@lanl.gov])
 AC_CONFIG_SRCDIR([src/hio_context.c])
 AC_CONFIG_HEADERS([src/include/hio_config.h])
+m4_include([m4/compiler.m4])
 AC_CONFIG_MACRO_DIR([m4])
+
+
+
 AC_CHECK_PROG(MPICC, [mpicc], [mpicc], [none])
 AC_CHECK_PROG(MPICXX, [mpicxx], [mpicxx], [none])
 AM_SILENT_RULES([yes])
@@ -75,6 +79,15 @@ fi
 
 if test $hio_use_mpi ; then
    HIO_CHECK_MPI_FEATURES
+fi
+
+AC_ARG_WITH(sharp,
+            [--with-sharp=DIR sharp is installed in dir]
+            [],
+            [sharp_dir=$withval])
+
+if test "x$sharp_dir" != "x"; then
+    CFLAGS="$CFLAGS -I${sharp_dir}/src -I${sharp_dir}/include"
 fi
 
 #Check for HDF5
