@@ -397,6 +397,9 @@ int mpi_active(void) {
         return 1;
       } 
     }
+
+    return sharp_create_node_info();
+
   #endif 
   return 0;
 }

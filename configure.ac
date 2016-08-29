@@ -96,6 +96,7 @@ AC_CHECK_HEADERS_ONCE([strings.h sys/types.h sys/time.h pthread.h dlfcn.h sys/st
 AC_CHECK_FUNCS_ONCE([access gettimeofday stat statfs MPI_Win_allocate_shared \
                      MPI_Comm_split_type MPI_Win_flush])
 AC_SEARCH_LIBS([dlopen],[dl],[hio_dynamic_component=1],[hio_dynamic_component=0])
+AC_SEARCH_LIBS([sharp_create_group_allocate],[sharp])
 
 AX_PTHREAD([])
 

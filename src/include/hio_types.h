@@ -14,6 +14,8 @@
 
 #if HIO_USE_MPI
 #include <mpi.h>
+#include "sharp_groups/api/sharp_groups.h"
+#include "sobjects/api/sharp_objects.h"
 #endif
 
 #include "hio.h"
@@ -610,6 +612,10 @@ struct hio_dataset {
 #if HIO_MPI_HAVE(3)
   MPI_Win             ds_shared_win;
   hio_dataset_map_t   ds_map;
+
+  sharp_data_tier dtier;
+  sharp_group_allocated_t ag;
+  sharp_object_t hash;
 #endif
 
   hio_shared_control_t *ds_shared_control;

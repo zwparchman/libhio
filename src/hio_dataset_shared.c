@@ -89,6 +89,17 @@ int hioi_dataset_shared_init (hio_dataset_t dataset, int stripes) {
   control_block_size = (sizeof (hio_shared_control_t) + stripes * sizeof (dataset->ds_shared_control->s_stripes[0]) + 127) & ~127;
   data_size = ds_buffer_size + control_block_size * (0 == context->c_shared_rank);
 
+  sharp_create_data_tier_va(&dataset->dtier, 1,
+                            SHARP_HINT_CPU, SHARP_ACCESS_INTERP, data_size);
+  int error;
+  error = sharp_create_group_allocate(data_size,
+                                      SHARP_MPI,
+                                      context->c_shared_comm,
+                                      data_size, &dataset->dtier, &dataset->ag);
+  if( error != SHARP_OK){
+      return HIO_ERR_NOT_AVAILABLE;
+  }
+
   rc = MPI_Win_allocate_shared (data_size, 1, MPI_INFO_NULL,
                                 context->c_shared_comm, &base, &shared_win);
   if (MPI_SUCCESS != rc) {

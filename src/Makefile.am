@@ -11,12 +11,18 @@
 
 all: libhio.la
 
+
 AUTOMAKE_OPTIONS = subdir-objects
 CLEANFILES = libconfig_parser_a-config_parser.c
 
 lib_LTLIBRARIES = libhio.la
 
-include_HEADERS = include/hio.h
+SHARP_INCLUDE=-I/home/zack/src/sharp/src -I/home/zack/src/sharp/include
+AM_CFLAGS=$(SHARP_INCLUDE)
+
+
+
+include_HEADERS = include/hio.h 
 noinst_HEADERS = include/config_parser.h include/hio_internal.h \
 	include/hio_types.h include/hio_var.h include/hio_component.h \
 	builtin-posix_component.h
@@ -25,9 +31,10 @@ EXTRA_DIST = config_parser.l
 libconfig_parser_a-config_parser.c: config_parser.l
 	$(LEX) --prefix=hioi_config_parser -o libconfig_parser_a-config_parser.c config_parser.l
 
-libhio_la_CPPFLAGS = -I$(srcdir)/include
-libhio_la_CFLAGS = $(AM_CFLAGS) $(XML_CFLAGS)
-libhio_la_LDFLAGS = $(LTLDFLAGS) $(XML_LIBS)
+libhio_la_CPPFLAGS = -I$(srcdir)/include $(SHARP_INCLUDE)
+libhio_la_CFLAGS = $(AM_CFLAGS) $(XML_CFLAGS) $(SHARP_INCLUDE)
+
+libhio_la_LDFLAGS = $(LTLDFLAGS) $(XML_LIBS) $(SHARP_INCLUDE)
 libhio_la_SOURCES = hio_context.c hio_component.c hio_var.c hio_crc.c \
 	hio_dataset.c hio_dataset_shared.c hio_element.c hio_internal.c hio_request.c \
 	builtin-posix_component.c hio_manifest.c hio_fs.c hio_map.c api/dataset_open.c \
@@ -47,7 +54,7 @@ json_objects = $(top_builddir)/extra/json/build/arraylist.lo $(top_builddir)/ext
 libhio_la_LDFLAGS += --whole-archive $(top_builddir)/extra/json/build/.libs/libjson-c.la --no-whole-archive \
 	-version-info 1:0:0 -export-symbols-regex "^hio_.*"
 libhio_la_LIBADD += $(json_objects)
-libhio_la_CPPFLAGS += -I$(top_builddir)/extra/json/json-c-0.12 -I$(top_builddir)/extra/json/build
+libhio_la_CPPFLAGS += -I$(top_builddir)/extra/json/json-c-0.12 -I$(top_builddir)/extra/json/build $(SHARP_INCLUDE)
 $(top_builddir)/extra/json/build/arraylist.lo: json
 $(top_builddir)/extra/json/build/debug.lo: json
 $(top_builddir)/extra/json/build/json_c_version.lo: json
@@ -70,7 +77,7 @@ bzip2_objects = $(bzip_base)/blocksort.lo $(bzip_base)/bzlib.lo \
 	$(bzip_base)/decompress.lo $(bzip_base)/huffman.lo \
 	$(bzip_base)/randtable.lo
 libhio_la_LIBADD += $(bzip2_objects)
-libhio_la_CPPFLAGS += -I$(bzip_base)
+libhio_la_CPPFLAGS += -I$(bzip_base) $(SHARP_INCLUDE)
 endif
 
 if DATAWARP_AVAILABLE
