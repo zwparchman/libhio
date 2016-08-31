@@ -330,6 +330,17 @@ static int hioi_dataset_map_data_initialize (hio_dataset_t dataset, hio_dataset_
     return HIO_SUCCESS;
   }
 
+
+  /*
+  sharp_create_data_tier_va(&dataset->dtier, 1,
+                                SHARP_HINT_CPU, SHARP_ACCESS_INTERP, data_size);
+  int error;
+  error = sharp_create_group_allocate(data_size,
+                                  SHARP_MPI,
+                                  context->c_shared_comm,
+                                  data_size, &dataset->dtier, &dataset->ag);
+  */
+
   global_size = (1 + (global_size + HIO_MAP_BUCKET_SIZE * context->c_node_count - 1) / (HIO_MAP_BUCKET_SIZE * context->c_node_count)) *
     HIO_MAP_BUCKET_SIZE * context->c_node_count;
 

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+args="
+d 0
+v 0
+name hash_test
+
+mi 0
+
+hi bob /tmp/test
+
+
+hda bob 1 WRITE,TRUNC,CREAT SHARED
+hdo
+heo bil CREAT,WRITE,TRUNC
+lc 1000
+hsega 0 1000 0
+le
+hec
+hdc
+hdf
+hf
+
+"
+
+export LD_LIBRARY_PATH+="../src/.libs"
+
+debug=""
+#debug="-xterm -1! gdb"
+
+echo ========================
+mpirun -n 4 $debug .libs/xexec.x $args
