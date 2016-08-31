@@ -1,0 +1,3 @@
+[submodule "sharp"]
+	path = sharp
+	url = ssh://git@github.com/zwparchman/sharp
