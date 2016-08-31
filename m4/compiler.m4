@@ -6,5 +6,5 @@ AC_ARG_ENABLE(debug,
 
 
 AS_IF([test "x$enable_debug" == xyes],
-        [CFLAGS="-O0 -D_DEBUG $CFLAGS"],
+        [CFLAGS="-g -O0 -D_DEBUG $CFLAGS"],
         [CFLAGS="-O3 $CFLAGS"])
